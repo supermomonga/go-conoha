@@ -1,0 +1,27 @@
+
+## go-conoha
+
+Unofficial SDK for ConoHa API written in golang.
+
+__Note that this repository is currently WIP.__
+
+## Implementations
+
+- [ ] API Document(html) to JSON Hyper-Schema converter
+- [ ] JSON Hyper-Schema to SDK Library converter
+- [ ] SDK Library
+    - [ ] Identity Service
+    - [ ] Account(Billing) Service
+    - [ ] Compute Service
+    - [ ] Block Storage Service
+    - [ ] Image Service
+    - [ ] Network Service
+    - [ ] Object Storage Service
+    - [ ] Database Hosting Service
+    - [ ] DNS Service
+    - [ ] Mail Hosting Service
+
+
+## License
+
+See LICENSE file which included in this repository.
