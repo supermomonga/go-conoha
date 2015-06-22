@@ -2,6 +2,7 @@ package identity
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -27,14 +28,16 @@ type Versions []Version
 func (v *Versions) UnmarshalJSON(b []byte) (err error) {
 	tmp := struct {
 		Versions struct {
-			Values Versions
+			Values []Version
 		}
 	}{}
 	err = json.Unmarshal(b, &tmp)
 	if err != nil {
 		log.Fatal(err)
 	}
-	v = &tmp.Versions.Values
+	vs := Versions(tmp.Versions.Values)
+	fmt.Println(vs)
+	v = &vs
 	return
 }
 
