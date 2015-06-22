@@ -2,7 +2,6 @@ package identity
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -24,22 +23,6 @@ type Version struct {
 }
 
 type Versions []Version
-
-func (v *Versions) UnmarshalJSON(b []byte) (err error) {
-	tmp := struct {
-		Versions struct {
-			Values []Version
-		}
-	}{}
-	err = json.Unmarshal(b, &tmp)
-	if err != nil {
-		log.Fatal(err)
-	}
-	vs := Versions(tmp.Versions.Values)
-	fmt.Println(vs)
-	v = &vs
-	return
-}
 
 func GetVersions() Versions {
 	url := "https://identity.tyo1.conoha.io/"
@@ -67,12 +50,16 @@ func GetVersions() Versions {
 		log.Fatal(err)
 	}
 
-	var versions Versions
-	err = json.Unmarshal(body, &versions)
+	whole := struct {
+		Versions struct {
+			Values Versions
+		}
+	}{}
+	err = json.Unmarshal(body, &whole)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	return versions
+	return whole.Versions.Values
 
 }
