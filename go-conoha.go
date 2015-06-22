@@ -7,6 +7,5 @@ import (
 
 func main() {
 	versions := identity.GetVersions()
-
 	fmt.Println(versions)
 }

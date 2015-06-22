@@ -8,37 +8,34 @@ import (
 	"time"
 )
 
-type Versions struct {
-	Versions struct {
-		Values []struct {
-			ID    string `json:"id"`
-			Links []struct {
-				Href string `json:"href"`
-				Rel  string `json:"rel"`
-				Type string `json:"type"`
-			} `json:"links"`
-			MediaTypes []struct {
-				Base string `json:"base"`
-			} `json:"media-types"`
-			Status  string    `json:"status"`
-			Updated time.Time `json:"updated"`
-		} `json:"values"`
-	} `json:"versions"`
+type Version struct {
+	ID    string `json:"id"`
+	Links []struct {
+		Href string `json:"href"`
+		Rel  string `json:"rel"`
+		Type string `json:"type"`
+	} `json:"links"`
+	MediaTypes []struct {
+		Base string `json:"base"`
+	} `json:"media-types"`
+	Status  string    `json:"status"`
+	Updated time.Time `json:"updated"`
 }
 
-type Version struct {
-	Version struct {
-		Status     string    `json:"status"`
-		Updated    time.Time `json:"updated"`
-		MediaTypes []struct {
-			Base string `json:"base"`
-		} `json:"media-types"`
-		ID    string `json:"id"`
-		Links []struct {
-			Href string `json:"href"`
-			Rel  string `json:"rel"`
-		} `json:"links"`
-	} `json:"version"`
+type Versions []Version
+
+func (v *Versions) UnmarshalJSON(b []byte) (err error) {
+	tmp := struct {
+		Versions struct {
+			Values Versions
+		}
+	}{}
+	err = json.Unmarshal(b, &tmp)
+	if err != nil {
+		log.Fatal(err)
+	}
+	v = &tmp.Versions.Values
+	return
 }
 
 func GetVersions() Versions {
